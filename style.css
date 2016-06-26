@@ -1,0 +1,94 @@
+body {
+	background: black; /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(black, #112b08); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(black, #112b08); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(black, #112b08); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(black, #112b08); /* Standard syntax */
+
+	text-align: center;
+	color: white;
+}
+
+footer {
+	text-align: center;
+	font-size: 12px;
+}
+hr {
+	background-color: #006600;
+	border-color: #006600;
+	color: #006600;
+}
+
+.button {
+	background-color: #112b08;
+	border: 2px solid #112b08;
+	color: white;
+	padding: 5px 32px;
+	border-radius: 8px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+
+	-webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+}
+.button:hover {
+	background-color: #227722;
+	border: 2px solid #61d161;
+}
+
+#navi {
+	text-align: center;
+}
+#navi table {
+	margin: 0 auto;
+}
+
+
+div#logo img {
+	width: 400px;
+}
+
+div#products {
+	width: 50%;
+	margin: 0 auto;
+}
+div#products div#title {
+	font-size: 20px;
+	padding: 5px;
+	text-align: left;
+}
+div#products div#desc {
+	padding: 5px;
+	width: 100%;
+}
+
+div#products div#link a{
+	background-color: #330033;
+	border: 2px solid #330033;
+	color: white;
+	padding: 5px 32px;
+	border-radius: 8px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	width: 60%;
+
+	-webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+}
+div#products div#link a:hover{
+	background-color: #5c0a5c;
+	border: 2px solid #b43cdd;
+}
+div#products div#link a:before{
+	content: "Visit Page";
+
+}
+div#products div#link a:hover:before{
+	content: "Visit Page >>";
+}
