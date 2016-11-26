@@ -1,0 +1,13 @@
+{
+	"conf" : {
+		"title" : "Working title: Test",
+		"desc" : "This game is used to test things",
+		"img_src" : "https://erebyte.github.io/res/Erebyte_Logo_head.png",
+		"img_alt" : "Blocks!!!!!",
+		"embeded" : true,
+		"enable_p5" : true
+	},
+	"scripts" : [
+		"./sketch.js"
+	]
+}

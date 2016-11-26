@@ -1,0 +1,83 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>Erebyte - About</title>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="http://twitter.github.com/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
+
+	<script src="./res/templates.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<script type="text/javascript">
+		//-=-=-=- Functions -=-=-=-//
+		$.urlParam = function(name){
+			// seperates and returns url parms
+			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+			if (results==null){
+				return null;
+			}
+			else{
+				return results[1] || 0;
+			}
+		}
+		//-=- Embedding Code -=-//
+		var base_url;
+		$(document).ready(function () {
+			var game_id = $.urlParam('g');
+			base_url = "./games/"+game_id;
+			$.getJSON(base_url+"/manifest.json", function(json_data) {
+				//fills template
+				var template = Hogan.compile($("#game").html());
+				var html = template.render(json_data.conf);
+				$("#game").html(html);
+
+				var load_scripts = function () {
+					for (var i=0; i<json_data.scripts.length; i++) {
+						var url = json_data.scripts[i].replace("./", base_url+"/");
+						$.getScript(url).fail(function () {console.log('fail')});
+					}
+				}
+				if (json_data.conf.embeded == true) {
+					if (json_data.conf.enable_p5 == true) {
+						$.getScript("//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js", load_scripts);
+					}else {
+						load_scripts();
+					}
+				}else {
+					var url = "#";
+					var htm = '<a href="'+base_url+'"><img src="'+json_data.conf.img_src+'" alt="'+json_data.conf.img_alt+'"></a>';
+					$("#game_container").html(htm);
+				}
+			})
+			.fail(function (jqxhr, textStatus, error) {
+				// var err = textStatus + ", " + error;
+				// console.log( "Request Failed: " + err );
+				// Handle not found error, populate with not found
+				// var template = Hogan.compile($("#game").html());
+				// var html = template.render();
+				// $("#game").html(html);
+			});
+		});
+	</script>
+</head>
+<body>
+
+<div id="header"></div>
+
+<div id="game">
+	<div id="game_container"></div>
+
+	<div id="game_footer">
+		<div id"game_title">{{title}}</div>
+		<div id"game_desc">{{desc}}</div>
+	</div>
+</div>
+
+</body>
+<footer>
+	<hr>
+	<p>Copyright © 2016, Erebyte Ent., All Rights Reserved</p>
+</footer>
+</html>

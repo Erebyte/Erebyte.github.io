@@ -1,0 +1,38 @@
+<div id="header">
+	<table><tr>
+	<td><div id='titles'>
+		<table>
+			<tr><td class='title'>
+				<div class="img" id='logo'>
+					<a href="https://erebyte.github.io">
+						<img src="https://erebyte.github.io/res/Erebyte_Logo_head.png" alt="Erebyte">
+					</a>
+				</div>
+			</td></tr>
+			<!-- <tr><td class='subtitle'>Subtitle</td></tr> -->
+		</table>
+	</div></td>
+	<td><div id='logos'></div></td>
+	</tr></table>
+<hr>
+</div>
+
+<div id="navi">
+	<table><tr>
+	<td><a href="https://erebyte.github.io" class='button'>Home</a></td>
+	<td><a href="/products/index.html" class='button'>Products</a></td>
+	<td><a href="/about.html" class='button'>About</a></td>
+	<!-- <td><a href="#" class='button'>Documentation</a></td> -->
+	</tr></table>
+</div>
+
+<div id="products">
+	{{#%}}{{#enabled}}
+	<div class="product_head">{{category}}</div>
+		{{#entries}}
+			<div id='title'>{{title}}</div>
+			<div id='desc'>{{desc}}</div>
+			<div id='link'><a target='blank_' href="{{href}}"></a></div>
+		{{/entries}}
+	{{/enabled}}{{/%}}
+</div>

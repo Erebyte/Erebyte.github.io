@@ -1,0 +1,37 @@
+{
+	"%" : [
+		{
+			"category" : "products",
+			"enabled" : false,
+			"entries" : [
+				{
+					"title" : "Youtube-dl GUI",
+					"desc" : "A user interface built on top of the youtube-dl and pafy api. Used to search for and download specific videos off youtube.",
+					"href" : "http://www.google.com"
+				}
+			]
+		},
+		{
+			"category" : "games",
+			"enabled" : true,
+			"entries" : [
+				{
+					"title" : "Working Title: Blocks",
+					"desc" : "Blocks!",
+					"id" : "blocks",
+					"href" : "/play.html?g=blocks"
+				},
+				{
+					"title" : "Working Title: Talk",
+					"desc" : "Talking!",
+					"id" : "talk",
+					"href" : "/play.html?g=talk"
+				}
+			]
+		},
+		{
+			"category" : "music",
+			"enabled" : false
+		}
+	]
+}
