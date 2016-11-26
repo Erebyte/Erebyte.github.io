@@ -1,7 +1,7 @@
 <!DOCTYPE>
 <html>
 <head>
-	<title>Erebyte - About</title>
+	<title>Erebyte</title>
 	
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="/res/hogan.js"></script>
@@ -22,10 +22,30 @@
 				return results[1] || 0;
 			}
 		}
+
+		'use strict'; // from: https://codepad.co/snippet/zRykJud8
+		String.prototype.capitalize = function() {
+			return this.charAt(0).toUpperCase() + this.slice(1);
+		}
+
+		String.prototype.replaceAll = function(s, r) {
+			return this.split(s).join(r);
+		}
+
+		String.prototype.titleize = function() {
+			var string_array = this.replaceAll('_',' ').split(' ');
+			string_array = string_array.map(function(str) {
+				return str.capitalize(); 
+			});
+			
+			return string_array.join(' ');
+		}
 		//-=- Embedding Code -=-//
 		var base_url;
+		var game_id = $.urlParam('g');
+		var game_title = game_id.titleize();
 		$(document).ready(function () {
-			var game_id = $.urlParam('g');
+			$('title').html("Erebyte - "+game_title)
 			base_url = "./games/"+game_id;
 			$.getJSON(base_url+"/manifest.json", function(json_data) {
 				//fills template
@@ -52,12 +72,15 @@
 				}
 			})
 			.fail(function (jqxhr, textStatus, error) {
+				var responce = {};
+				responce.title = game_title + " (Not Found)"
+				responce.desc = "If you are seeing this message that means you are trying to access a game that does not exist. If you believe this to be a problem you can contact the site admin through some means... probably in the about section... so... yeah. <br/><br/>Bye (^.^)/"
 				// var err = textStatus + ", " + error;
 				// console.log( "Request Failed: " + err );
 				// Handle not found error, populate with not found
-				// var template = Hogan.compile($("#game").html());
-				// var html = template.render();
-				// $("#game").html(html);
+				var template = Hogan.compile($("#game").html());
+				var html = template.render(responce);
+				$("#game").html(html);
 			});
 		});
 	</script>
@@ -71,7 +94,7 @@
 
 	<div id="game_footer">
 		<div id"game_title">{{title}}</div>
-		<div id"game_desc">{{desc}}</div>
+		<div id"game_desc">{{{desc}}}</div>
 	</div>
 </div>
 
