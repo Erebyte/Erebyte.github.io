@@ -1,0 +1,38 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>talk.</title>
+	<link rel="stylesheet" href="style.css">
+	<!--script src="//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+	<script src="./sketch.js"></script-->
+	<script src="./chat.js"></script>
+	<script src="./game.js"></script>
+
+</head>
+<body onload="game.init()">
+
+<audio id="msg_tone" src="http://www.soundjay.com/button/sounds/button-27.mp3"></audio>
+<script type="text/javascript">
+
+var game = new Game();
+
+</script>
+
+<div id='window_cont'>
+	<div id='window'>
+		<div id='message_cont'>
+			<div id='messages'>
+
+			</div>
+		</div>
+		<div id='input_cont'>
+			<form id='input' name='input' onsubmit='game.chat.submit(); return false;' action='#' autocomplete="off">
+				<input type='text' name='textbox' value=''>
+				<button type='submit'>Talk</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+	"conf" : {
+		"title" : "Working title: Talk",
+		"desc" : "You talk... there is talking...",
+		"embeded" : false,
+		"enable_p5" : false,
+		"img_src" : "#",
+		"img_alt" : "#"
+	},
+	"scripts" : [
+		"./game.js",
+		"./chat.js"
+	]
+}
