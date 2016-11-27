@@ -1,0 +1,74 @@
+#game {
+	min-height: 400px;
+	padding: 20px;
+}
+
+#game_footer {
+	margin: 10px auto;
+	width: 50%;
+}
+
+#game-title {
+	font-size: 30px;
+	padding: 5px;
+}
+#game-desc {
+	margin-bottom: 50px;
+	width: 100%;
+}
+
+/*Placeholder img*/
+.img-placeholder {
+	margin: 20px auto;
+	width: 720px;
+	height: 250px;
+	background-color: #8c8c8c;
+
+}
+.img-placeholder:before {
+	font-size: 30px;
+	color: black;
+	content: "Placeholder IMG 720x250";
+}
+
+
+#loader {
+	margin: 100px auto;
+
+	border: 5px solid #8c8c8c; /* grey */
+	border-top: 5px solid #79ec79; /* green */
+	border-radius: 50%;
+	width: 25px;
+	height: 25px;
+	-webkit-animation: spin 1.5s linear infinite;
+	animation: spin 1.5s linear infinite;
+}
+
+@-webkit-keyframes spin {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(-360deg); }
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(-360deg); }
+}
+
+/* Add animation to "page content" */
+.animate-top {
+  position: relative;
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 1s;
+  animation-name: animatetop;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatetop {
+  from { top:-50px; opacity:0 } 
+  to { top:0; opacity:1 }
+}
+
+@keyframes animatetop { 
+  from{ top:-50px; opacity:0 } 
+  to{ top:0; opacity:1 }
+}

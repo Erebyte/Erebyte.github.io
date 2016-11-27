@@ -8,6 +8,7 @@
 
 	<script src="./res/templates.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="play.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 	<script type="text/javascript">
@@ -37,9 +38,9 @@
 			string_array = string_array.map(function(str) {
 				return str.capitalize(); 
 			});
-			
 			return string_array.join(' ');
 		}
+
 		//-=- Embedding Code -=-//
 		var base_url;
 		var game_id = $.urlParam('g');
@@ -52,11 +53,20 @@
 				var template = Hogan.compile($("#game").html());
 				var html = template.render(json_data.conf);
 				$("#game").html(html);
+				$('#game_footer').css('display', 'block'); // show info
 
 				var load_scripts = function () {
 					for (var i=0; i<json_data.scripts.length; i++) {
 						var url = json_data.scripts[i].replace("./", base_url+"/");
-						$.getScript(url).fail(function () {console.log('fail')});
+						var count = i;
+						$.getScript(url)
+						.always(function () {
+							if (count == json_data.scripts.length-1) {
+								$("#loader").css('display', 'none'); // clear loader
+							}
+						}).fail(function () {
+							console.log('fail');
+						});
 					}
 				}
 				if (json_data.conf.embeded == true) {
@@ -69,18 +79,22 @@
 					var url = "#";
 					var htm = '<a href="'+base_url+'"><img src="'+json_data.conf.img_src+'" alt="'+json_data.conf.img_alt+'"></a>';
 					$("#game_container").html(htm);
+					$("#loader").css('display', 'none'); // clear loader
 				}
-			})
-			.fail(function (jqxhr, textStatus, error) {
+			}).fail(function (jqxhr, textStatus, error) {
+				// var err = textStatus + ", " + error;
+				// console.log( "Request Failed: " + err );
+				// ^^ Log Error ^^ //
 				var responce = {};
 				responce.title = game_title + " (Not Found)"
 				responce.desc = "If you are seeing this message that means you are trying to access a game that does not exist. If you believe this to be a problem you can contact the site admin through some means... probably in the about section... so... yeah. <br/><br/>Bye (^.^)/"
-				// var err = textStatus + ", " + error;
-				// console.log( "Request Failed: " + err );
-				// Handle not found error, populate with not found
-				var template = Hogan.compile($("#game").html());
+				//<img src="#" alt="img">
+				var img_htm = '<div class="img-placeholder"><a href="#"></a></div>'
+				var template = Hogan.compile(img_htm + $("#game").html());
 				var html = template.render(responce);
 				$("#game").html(html);
+				$("#loader").css('display', 'none'); // clear loader
+				$('#game_footer').css('display', 'block'); // show info
 			});
 		});
 	</script>
@@ -90,11 +104,12 @@
 <div id="header"></div>
 
 <div id="game">
+	<div id="loader"></div>
 	<div id="game_container"></div>
 
-	<div id="game_footer">
-		<div id"game_title">{{title}}</div>
-		<div id"game_desc">{{{desc}}}</div>
+	<div style='display:none' id="game_footer" class='animate-top'>
+		<div id="game-title">{{title}}</div>
+		<div id="game-desc">{{{desc}}}</div>
 	</div>
 </div>
 

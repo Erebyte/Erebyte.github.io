@@ -87,7 +87,6 @@ div#products div#link a:hover{
 }
 div#products div#link a:before{
 	content: "Visit Page";
-
 }
 div#products div#link a:hover:before{
 	content: "Visit Page >>";
