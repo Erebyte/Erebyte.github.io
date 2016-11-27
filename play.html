@@ -77,7 +77,7 @@
 					}
 				}else {
 					var url = "#";
-					var htm = '<a href="'+base_url+'"><img src="'+json_data.conf.img_src+'" alt="'+json_data.conf.img_alt+'"></a>';
+					var htm = '<a href="'+base_url+'"><div class="img-placeholder"><img src="'+json_data.conf.img_src+'" alt="'+json_data.conf.img_alt+'"></div></a>';
 					$("#game_container").html(htm);
 					$("#loader").css('display', 'none'); // clear loader
 				}

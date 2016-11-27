@@ -30,6 +30,9 @@
 	color: black;
 	content: "Placeholder IMG 720x250";
 }
+.img-placeholder > * {
+	display: none;
+}
 
 
 #loader {
