@@ -66,6 +66,7 @@
 					for (var i=0; i<json_data.scripts.length; i++) {
 						var url = json_data.scripts[i].replace("./", base_url+"/");
 						var count = i;
+						console.log("loading: "+url);
 						$.getScript(url)
 						.always(function () {
 							if (count == json_data.scripts.length-1) {
