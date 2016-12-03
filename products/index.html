@@ -2,19 +2,20 @@
 <html>
 <head>
 	<title>Erebyte - Products</title>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="/res/hogan.js"></script>
 	<script src="/res/templates.js"></script>
-	<!-- <script src="products.js"></script> -->
 
-	<link rel="stylesheet" type="text/css" href="../style.css">
+	<link rel="stylesheet" type="text/css" href="/res/style.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
-
 			$.getJSON("products.json", function(json_data){
+				// load template into #products
 				$("#products").load("/res/templates.html #products > *", function(){
+					// callback: fetch template code and pass to Hogan
 					var template = Hogan.compile($("#products").html());
 					var html = template.render(json_data);
 					$("#products").html(html);

@@ -4,7 +4,7 @@
 		"desc" : "You talk... there is talking...",
 		"embeded" : false,
 		"enable_p5" : false,
-		"img_src" : "#",
+		"img_src" : null,
 		"img_alt" : "#"
 	},
 	"scripts" : [

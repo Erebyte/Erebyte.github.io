@@ -1,6 +1,6 @@
 $(document).ready(function(){
-	// header
+	// load into header
 	$("#header").load("/res/templates.html #header > *");
-	// navi
+	// load into navi
 	$("#navi").load("/res/templates.html #navi > *");
 });
