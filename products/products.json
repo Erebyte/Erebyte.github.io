@@ -1,7 +1,7 @@
 {
 	"%" : [
 		{
-			"category" : "products",
+			"category" : "Products",
 			"enabled" : false,
 			"entries" : [
 				{
@@ -12,7 +12,7 @@
 			]
 		},
 		{
-			"category" : "games",
+			"category" : "Games",
 			"enabled" : true,
 			"entries" : [
 				{
@@ -30,7 +30,7 @@
 			]
 		},
 		{
-			"category" : "music",
+			"category" : "Music",
 			"enabled" : false
 		}
 	]

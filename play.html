@@ -53,8 +53,8 @@
 		// callbacks
 		$(document).ready(function () {
 			$('title').html("Erebyte - "+game_title) // set title
-			base_url = "./games/"+game_id;
-			$.getJSON(base_url+"/manifest.json", function(json_data) {
+			// CallBack
+			var cb = function(json_data) {
 				// fills template
 				var template = Hogan.compile($("#game").html());
 				var html = template.render(json_data.conf);
@@ -91,20 +91,27 @@
 					$("#game_container").html(htm);
 					$("#loader").css('display', 'none'); // clear loader
 				}
-			}).fail(function (jqxhr, textStatus, error) {
-				//-=-=-=- If Fails to find and load a game -=-=-=-//
-				// var err = textStatus + ", " + error;
-				// console.log( "Request Failed: " + err );
-				// ^^ Log Error ^^ //
-				var responce = {}; // fake responce data
-				responce.title = game_title + " (Not Found)"
-				responce.desc = "If you are seeing this message that means you are trying to access a game that does not exist. If you believe this to be a problem you can contact the site admin through some means... probably in the about section... so... yeah. <br/><br/>Bye (^.^)/"
-				var img_htm = '<img src="http://placehold.it/720x250"/>'
-				var template = Hogan.compile(img_htm + $("#game").html());
-				var html = template.render(responce);
-				$("#game").html(html); // fill template
-				$("#loader").css('display', 'none'); // clear loader
-				$('#game_footer').css('display', 'block'); // show info
+			}
+			base_url = "/"+game_id; // try: /gameId/manifest.json
+			$.getJSON(base_url+"/manifest.json", cb)
+			.fail(function () {
+				base_url = "./games/"+game_id; // try: /games/gameId/manifest.json
+				$.getJSON(base_url+"/manifest.json", cb)
+				.fail(function (jqxhr, textStatus, error) {
+					//-=-=-=- If Fails to find and load a game -=-=-=-//
+					// var err = textStatus + ", " + error;
+					// console.log( "Request Failed: " + err );
+					// ^^ Log Error ^^ //
+					var responce = {}; // fake responce data
+					responce.title = game_title + " (Not Found)"
+					responce.desc = "If you are seeing this message that means you are trying to access a game that does not exist. If you believe this to be a problem you can contact the site admin through some means... probably in the about section... so... yeah. <br/><br/>Bye (^.^)/"
+					var img_htm = '<img src="http://placehold.it/720x250"/>'
+					var template = Hogan.compile(img_htm + $("#game").html());
+					var html = template.render(responce);
+					$("#game").html(html); // fill template
+					$("#loader").css('display', 'none'); // clear loader
+					$('#game_footer').css('display', 'block'); // show info
+				});
 			});
 		});
 	</script>
