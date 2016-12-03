@@ -39,11 +39,11 @@ used:
 <div id="products">
 	<div>
 	{{#%}}{{#enabled}}
-	<div class="product_head">{{category}}</div>
+	<div class="product-head">{{category}}<hr/></div>
 		{{#entries}}
-			<div id='title'>{{title}}</div>
-			<div id='desc'>{{desc}}</div>
-			<div id='link'><a target='blank_' href="{{href}}"></a></div>
+			<div class='product-title'>{{title}}</div>
+			<div class='product-desc'>{{desc}}</div>
+			<div class='product-link'><a target='blank_' href="{{href}}"></a></div>
 		{{/entries}}
 	{{/enabled}}{{/%}}
 	</div>

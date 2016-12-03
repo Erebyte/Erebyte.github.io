@@ -55,17 +55,23 @@ div#products {
 	width: 50%;
 	margin: 0 auto;
 }
-div#products div#title {
+.product-head {
+	font-size: 30px;
+}
+.product-head hr {
+	border-color: #602060;
+}
+.product-title {
 	font-size: 20px;
 	padding: 5px;
 	text-align: left;
 }
-div#products div#desc {
-	padding: 5px;
+.product-desc {
 	width: 100%;
+	padding: 5px;
 }
 
-div#products div#link a{
+.product-link a{
 	background-color: #330033;
 	border: 2px solid #330033;
 	color: white;
@@ -81,13 +87,13 @@ div#products div#link a{
 	-webkit-transition-duration: 0.2s; /* Safari */
     transition-duration: 0.2s;
 }
-div#products div#link a:hover{
+.product-link a:hover{
 	background-color: #5c0a5c;
 	border: 2px solid #b43cdd;
 }
-div#products div#link a:before{
+.product-link a:before{
 	content: "Visit Page";
 }
-div#products div#link a:hover:before{
+.product-link a:hover:before{
 	content: "Visit Page >>";
 }
