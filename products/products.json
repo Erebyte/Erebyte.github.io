@@ -19,13 +19,13 @@
 					"title" : "Working Title: Blocks",
 					"desc" : "Blocks!",
 					"id" : "blocks",
-					"href" : "/play.html?g=blocks"
+					"href" : "/play?g=blocks"
 				},
 				{
 					"title" : "Working Title: Talk",
 					"desc" : "Talking!",
 					"id" : "talk",
-					"href" : "/play.html?g=talk"
+					"href" : "/play?g=talk"
 				}
 			]
 		},
