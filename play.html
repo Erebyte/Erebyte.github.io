@@ -29,7 +29,6 @@
 		String.prototype.capitalize = function() {
 			return this.charAt(0).toUpperCase() + this.slice(1);
 		}
-
 		String.prototype.titleize = function() {
 			var string_array = this.replaceAll('_',' ').split(' ');
 			string_array = string_array.map(function(str) {
@@ -37,6 +36,7 @@
 			});
 			return string_array.join(' ');
 		}
+		//
 
 		String.prototype.replaceAll = function(s, r) {
 			// a simple replace all function (sorry im used to python)
@@ -46,44 +46,29 @@
 		//-=-=- Embedding Code -=-=-//
 		//const
 		var game_id = $.urlParam('g');
-		var game_title = game_id.titleize();
+		var game_title = (game_id||'').titleize();
 		//gobals
-		var base_url;
+		var base_url = base_url || '.';
 
 		// callbacks
 		$(document).ready(function () {
 			$('title').html("Erebyte - "+game_title) // set title
-			// CallBack
-			var cb = function(json_data) {
+
+			// -=- Local Functions -=- //
+			//
+			var json_cb = function (json_data) {
 				// fills template
 				var template = Hogan.compile($("#game").html());
 				var html = template.render(json_data.conf);
 				$("#game").html(html);
 				$('#game_footer').css('display', 'block'); // show info +ani
-				//-=- local functions -=-//
-				var load_scripts = function () {
-					// Loads all scripts in manifest
-					for (var i=0; i<json_data.scripts.length; i++) {
-						var url = json_data.scripts[i].replace("./", base_url+"/");
-						var count = i;
-						console.log("loading: "+url);
-						$.getScript(url)
-						.always(function () {
-							if (count == json_data.scripts.length-1) {
-								$("#loader").css('display', 'none'); // clear loader
-							}
-						}).fail(function () {
-							console.log('failed to load script');
-						});
-					}
-				}
 				// game embedding code
 				if (json_data.conf.embeded == true) {
 					if (json_data.conf.enable_p5 == true) {
 						// if p5 is enabled
-						$.getScript("//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js", load_scripts);
+						$.getScript("//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js", function(){load_scripts(json_data);});
 					}else {
-						load_scripts();
+						load_scripts(json_data); // starts script loading
 					}
 				}else {
 					// if game is in seperate window (not embeded)
@@ -92,16 +77,13 @@
 					$("#game_container").html(htm);
 					$("#loader").css('display', 'none'); // clear loader
 				}
-			}
-			base_url = "/"+game_id; // try: /gameId/manifest.json
-			$.getJSON(base_url+"/manifest.json", cb)
-			.fail(function () {
-				base_url = "./games/"+game_id; // try: /games/gameId/manifest.json
-				$.getJSON(base_url+"/manifest.json", cb)
-				.fail(function (jqxhr, textStatus, error) {
+			};
+			var fail_cb = function () {
+				// fail resolve //
+				var cb = function (jqxhr, textStatus, error) {
 					//-=-=-=- If Fails to find and load a game -=-=-=-//
-					// var err = textStatus + ", " + error;
-					// console.log( "Request Failed: " + err );
+					var err = textStatus + ", " + error;
+					console.log( "Request Failed: " + err );
 					// ^^ Log Error ^^ //
 					var responce = {}; // fake responce data
 					responce.title = game_title + " (Not Found)"
@@ -112,8 +94,35 @@
 					$("#game").html(html); // fill template
 					$("#loader").css('display', 'none'); // clear loader
 					$('#game_footer').css('display', 'block'); // show info
+				};
+				// try again //
+				base_url = "./games/"+game_id; // try: /games/gameId/manifest.json
+				$.getJSON(base_url+"/manifest.json", json_cb).fail(cb);
+			};
+			//
+			var scriptID = 0;
+			var load_scripts = function (json_data) {
+				loadScript(json_data.scripts[scriptID++],
+					function(){load_scripts(json_data);});
+				//
+				if (scriptID == json_data.scripts.length){ // if final script
+					$("#loader").css('display', 'none'); // clear loader
+				}
+			};
+			var loadScript = function (url, cb) {
+				if(!url)return false;
+				url = base_url + url.slice(1);
+				console.log("loading: ", url);
+				$.getScript(url)
+				.done(cb)
+				.fail(function () {
+					console.log('failed to load script');
 				});
-			});
+			};
+
+			// -=- Run -=- //
+			$.getJSON(base_url+"/manifest.json", json_cb).fail(fail_cb);
+			//
 		});
 	</script>
 </head>
@@ -135,6 +144,6 @@
 <footer>
 	<hr>
 	<img src="//erebyte.github.io/res/erebyte_logo_small.png">
-	<p>Copyright © 2016, Erebyte Ent., All Rights Reserved</p>
+	<p>Copyright © 2017, Erebyte Ent., All Rights Reserved</p>
 </footer>
 </html>

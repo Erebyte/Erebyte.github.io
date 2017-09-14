@@ -37,13 +37,15 @@ used:
 	/products/index.html #products
 <!-->
 <div id="products">
-	<div>
+	<div class='posts'>
 	{{#%}}{{#enabled}}
-	<div class="product-head">{{category}}<hr/></div>
+	<div class="post-head">{{category}}<hr/></div>
 		{{#entries}}
-			<div class='product-title'>{{title}}</div>
-			<div class='product-desc'>{{desc}}</div>
-			<div class='product-link'><a target='blank_' href="{{href}}"></a></div>
+			<div class='post'>
+				<div class='post-title'>{{title}}</div>
+				<div class='post-desc'>{{desc}}</div>
+				<div class='post-link'><a target='blank_' href="{{href}}"></a></div>
+			</div>
 		{{/entries}}
 	{{/enabled}}{{/%}}
 	</div>

@@ -8,6 +8,7 @@
 		"enable_p5" : true
 	},
 	"scripts" : [
+		"./test.js",
 		"./sketch.js"
 	]
 }
