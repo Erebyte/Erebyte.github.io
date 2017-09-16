@@ -49,6 +49,7 @@
 		var game_title = (game_id||'').titleize();
 		//gobals
 		var base_url = base_url || '.';
+		var game_url;
 
 		// callbacks
 		$(document).ready(function () {
@@ -78,12 +79,13 @@
 					$("#loader").css('display', 'none'); // clear loader
 				}
 			};
+			var script_load_fail = false;
 			var fail_cb = function () {
 				// fail resolve //
 				var cb = function (jqxhr, textStatus, error) {
 					//-=-=-=- If Fails to find and load a game -=-=-=-//
-					var err = textStatus + ", " + error;
-					console.log( "Request Failed: " + err );
+					// var err = textStatus + ", " + error;
+					// console.log( "Request Failed: " + err );
 					// ^^ Log Error ^^ //
 					var responce = {}; // fake responce data
 					responce.title = game_title + " (Not Found)"
@@ -95,9 +97,13 @@
 					$("#loader").css('display', 'none'); // clear loader
 					$('#game_footer').css('display', 'block'); // show info
 				};
+				if(script_load_fail){
+					cb();
+					return;
+				}
 				// try again //
-				base_url = "./games/"+game_id; // try: /games/gameId/manifest.json
-				$.getJSON(base_url+"/manifest.json", json_cb).fail(cb);
+				game_url = "./unused/games/"+game_id+'/'; // try test folder
+				$.getJSON(game_url+'manifest.json', json_cb).fail(cb);
 			};
 			//
 			var scriptID = 0;
@@ -107,21 +113,26 @@
 				//
 				if (scriptID == json_data.scripts.length){ // if final script
 					$("#loader").css('display', 'none'); // clear loader
+					// if(script_load_fail)fail_cb();
 				}
 			};
 			var loadScript = function (url, cb) {
 				if(!url)return false;
-				url = base_url + url.slice(1);
+				url = game_url + url.slice(1);
+				// url = base_url + url.slice(1);
 				console.log("loading: ", url);
 				$.getScript(url)
 				.done(cb)
 				.fail(function () {
 					console.log('failed to load script');
+					script_load_fail = true;
+					fail_cb();
 				});
 			};
 
 			// -=- Run -=- //
-			$.getJSON(base_url+"/manifest.json", json_cb).fail(fail_cb);
+			var game_url = base_url+'/'+game_id+'/';
+			$.getJSON(game_url+'manifest.json', json_cb).fail(fail_cb);
 			//
 		});
 	</script>

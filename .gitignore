@@ -13,4 +13,4 @@
 #Thumbs.db
 
 # dont include server running code
-run.py
+server.py
