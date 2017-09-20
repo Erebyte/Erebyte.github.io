@@ -2,11 +2,10 @@
 
 '''
 Starting point
-
-- simple redirect to add index and .html where nessary
 '''
 
 #-# Imports #-#
+
 from sys import stdout as sys_stdout
 from os import chdir as os_chdir
 from os import curdir, sep
@@ -16,20 +15,30 @@ import BaseHTTPServer
 import SocketServer
 import logging
 
-DEBUG = True
+from imp import load_source
 
 #-# Globals and Constants #-#
-# logging.basicConfig(stream=sys_stdout, filename='bin/log.log', filemode='w', level=logging.DEBUG)
-# LOG = logging.getLogger('root')
+try:
+	logging.basicConfig(stream=sys_stdout, filename='bin/log.log', filemode='w', level=logging.DEBUG)
+except IOError as e:
+	print e
+LOG = logging.getLogger('root')
+Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 
-# Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
+class HandlerClass(Handler):
+	"""docstring for Handler"""
+	def _set_headers(self):
+		self.send_response(200)
+		self.send_header('Content-type', 'text/html')
+		self.end_headers()
+
 	def redirect_(self, path):
 		self.send_response(301)
 		self.send_header("Location", path)
 		self.end_headers()
+
 	def do_GET(self):
-		if DEBUG: print 'do_GET.path:', self.path
+		LOG.info('do_GET.path: %s' % (self.path))
 		if self.path.endswith('/'):
 			self.redirect_(self.path+'index.html')
 		elif '?' in self.path and not '.' in self.path.split('?')[0]:
@@ -73,16 +82,34 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
 					self.end_headers()
 					self.wfile.write(f.read())
 					f.close()
+				else:
+					LOG.info('GET - No reply sent for path: %s' % (path))
 				return
-
-
 			except IOError:
+				LOG.info('GET - No reply sent for path: %s' % (path))
 				self.send_error(404,'File Not Found: %s' % self.path)
-		
+
+	def do_POST(self):
+		LOG.info('Got Post!!! Path:%s' % (self.path))
+		# LOG.info('Body:%s' % (post_body))
+		content_len = int(self.headers.getheader('content-length', 0))
+		post_body = self.rfile.read(content_len)
+
+		resp = ''
+		try:
+			handle = load_source('handle', '.'+self.path)
+			resp = handle.handle(post_body, self.path)
+		except Exception, e:
+			print 'Handle error:', e
+
+		if(resp == '' or not resp):
+			resp = 'empty response'
+			LOG.info('POST - No response sent for path: %s' % (self.path))
+		self._set_headers()
+		self.wfile.write(resp)
 
 
-
-server = SocketServer.TCPServer(('0.0.0.0', 8080), Handler)
+server = SocketServer.TCPServer(('0.0.0.0', 8080), HandlerClass)
 
 #-# Functions and Classes #-#
 
@@ -96,27 +123,19 @@ def init_t():
 	msg = str(sa[0])+" : "+str(sa[1])
 	logging.getLogger('root.www').info(msg)
 	print 'hosted on: '+msg
+	print 'windows? : 127.0.0.1'
 	server.serve_forever()
 
 
 #-# Main#-#
 def main():
 	init()
-	# LOG.info('Done Initializing')
+	LOG.info('Done Initializing')
 	usr_in = raw_input()
 	while not (usr_in == "kill"):
-		# if usr_in.split()[0] == "cd":
-		# 	dir_ = usr_in.split()
-		# 	dir_.append("")
-		# 	dir_ = dir_[1]
-		# 	print "changing directory to:", dir_
-		# 	os_chdir(dir_)
 		usr_in = raw_input()
-	server.server_close()
-	server.shutdown()
-	server.socket.close()
-	# Handler.
-	# LOG.info('Killing server done.')
+		LOG.info('Console Input: '+usr_in)
+	LOG.info('Killing server done.')
 
 
 if __name__ == '__main__':
