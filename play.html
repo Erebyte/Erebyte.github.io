@@ -131,7 +131,7 @@
 			};
 
 			// -=- Run -=- //
-			var game_url = base_url+'/'+game_id+'/';
+			game_url = base_url+'/'+game_id+'/';
 			$.getJSON(game_url+'manifest.json', json_cb).fail(fail_cb);
 			//
 		});
