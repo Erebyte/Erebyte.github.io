@@ -18,6 +18,10 @@ import logging
 from imp import load_source
 
 #-# Globals and Constants #-#
+
+IP_addr = '0.0.0.0'
+IP_port = 8080
+
 try:
 	logging.basicConfig(stream=sys_stdout, filename='bin/log.log', filemode='w', level=logging.DEBUG)
 except IOError as e:
@@ -109,7 +113,7 @@ class HandlerClass(Handler):
 		self.wfile.write(resp)
 
 
-server = SocketServer.TCPServer(('0.0.0.0', 8080), HandlerClass)
+server = SocketServer.TCPServer((IP_addr, IP_port), HandlerClass)
 
 #-# Functions and Classes #-#
 
