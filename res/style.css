@@ -4,8 +4,8 @@
 	--color-highlight: #a244a2;
 	--color-highlight-secondary: #492c45;
 	
-	--color-bg-primary: #c9cbd9;
-	--color-bg-secondary: #9dbae8;
+	--color-bg-primary: #151515;
+	--color-bg-secondary: #090909;
 	--color-footer-primary: #575f9c;
 	--color-footer-secondary: #3864a0;
 	--color-footer-highlight: white;
@@ -28,7 +28,9 @@
 body {
 	
 	background: var(--color-gradient-bg, white); 
-
+	display: flex;
+	flex-direction: column;
+	min-height: 95vh;
 	text-align: center;
 	color: white;
 }
@@ -44,6 +46,10 @@ hr {
 	background-color: var(--color-highlight);
 	border-color: var(--color-highlight);
 	color: var(--color-highlight);
+}
+
+.spacer {
+	flex: 1;
 }
 
 .button {
