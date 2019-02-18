@@ -72,6 +72,21 @@ function draw() {
 	graphic3.pop()
 
 	if(random(100)<5) drones.push(new Drone());
+
+	//
+
+	push()
+	var sclr = noise(frameCount*0.01)+1;
+	var sclr2 = noise(frameCount*0.1+1000)+1;
+	var col = 200*sclr2;
+	translate(width*xOffset, height*yOffset)
+	noStroke();
+	fill(col,col,col,100);
+	ellipse(0,0,5*sclr,5*sclr);
+	fill(col+30,col+30,col+30,200);
+	ellipse(0,0,3*sclr,3*sclr);
+
+	pop()
 }
 
 // functions //
