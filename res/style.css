@@ -6,9 +6,16 @@
 	
 	--color-bg-primary: #151515;
 	--color-bg-secondary: #090909;
-	--color-footer-primary: #575f9c;
-	--color-footer-secondary: #3864a0;
+
+	--color-footer-primary: #46648d;
+	--color-footer-secondary: #6069ab;
 	--color-footer-highlight: white;
+	--color-footer-ruler: #1d4479;
+	
+	--color-header-primary: #575f9c77;
+	--color-header-secondary: #575f9c11;
+	--color-header-highlight: white;
+	--color-header-ruler: #3864a044;
 
 	--color-gradient-bg: var(--color-bg-primary); /* For browsers that do not support gradients */
 	--color-gradient-bg: -webkit-linear-gradient( var(--color-bg-primary)), var(--color-bg-secondary)) ); /* For Safari 5.1 to 6.0 */
@@ -22,6 +29,11 @@
 	--color-gradient-footer: -moz-linear-gradient( var(--color-footer-primary), var(--color-footer-secondary) ); /* For Firefox 3.6 to 15 */
 	--color-gradient-footer: linear-gradient(var(--color-footer-primary), var(--color-footer-secondary)); /* Standard syntax */
 
+	--color-gradient-header: var(--color-header-primary); /* For browsers that do not support gradients */
+	--color-gradient-header: -webkit-linear-gradient( var(--color-header-primary)), var(--color-header-secondary)) ); /* For Safari 5.1 to 6.0 */
+	--color-gradient-header: -o-linear-gradient( var(--color-header-primary), var(--color-header-secondary) ); /* For Opera 11.1 to 12.0 */
+	--color-gradient-header: -moz-linear-gradient( var(--color-header-primary), var(--color-header-secondary) ); /* For Firefox 3.6 to 15 */
+	--color-gradient-header: linear-gradient(var(--color-header-primary), var(--color-header-secondary)); /* Standard syntax */
 
 }
 
@@ -35,17 +47,40 @@ body {
 	color: white;
 }
 
-footer {
-	background: var(--color-gradient-footer, var(--color-footer-primary));
-	margin: 20px 0px 0px 0px;
-	padding: 20px;
+#header {
+	background: var(--color-gradient-header, var(--color-header-primary));
+	margin: 0px;
+	padding: 0px;
 	text-align: center;
 	font-size: 12px;
 }
+#header .ruler {
+	background: var(--color-header-ruler);
+	height: 5px;
+}
+
+footer {
+	background: var(--color-gradient-footer, var(--color-footer-primary));
+	margin: 20px 0px 0px 0px;
+	padding: 20px 0px 0px 0px;
+	text-align: center;
+	font-size: 12px;
+}
+footer .ruler {
+	background: var(--color-footer-ruler);
+	height: 15px;
+}
+
 hr {
 	background-color: var(--color-highlight);
 	border-color: var(--color-highlight);
 	color: var(--color-highlight);
+}
+
+.ruler {
+	height: 10px;
+	margin: 0px;
+	padding: 0px;
 }
 
 .spacer {
@@ -56,7 +91,7 @@ hr {
 	background-color: var(--color-secondary);
 	border: 2px solid var(--color-secondary);
 	color: white;
-	padding: 5px 32px;
+	padding: 5px 16px;
 	border-radius: 8px;
 	text-align: center;
 	text-decoration: none;
@@ -74,6 +109,8 @@ hr {
 
 #navi {
 	text-align: center;
+	max-width: 100%;
+	/*height: auto !important;*/
 }
 #navi table {
 	margin: 0 auto;
@@ -81,7 +118,9 @@ hr {
 
 
 div#logo img {
-	width: 400px;
+	/*width: 400px;*/
+	max-width: 100%;
+	height: auto !important;
 }
 
 div#products {
