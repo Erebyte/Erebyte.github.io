@@ -26,17 +26,17 @@ used across the head of all pages with id='navi'
 <div id="navi">
 	<table><tr>
 	<td><a href="https://erebyte.github.io" class='button'>Home</a></td>
-	<td><a href="/products/" class='button'>Products</a></td>
+	<td><a href="/projects/" class='button'>Projects</a></td>
 	<td><a href="/about" class='button'>About</a></td>
 	<!-- <td><a href="#" class='button'>Documentation</a></td> -->
 	</tr></table>
 </div>
 
-<!--> Products template
+<!--> Projects template
 used:
-	/products/index.html #products
+	/projects/index.html #projects
 <!-->
-<div id="products">
+<div id="projects">
 	<div class='posts'>
 	{{#%}}{{#enabled}}
 	<div class="post-head">{{category}}<hr/></div>
@@ -47,6 +47,7 @@ used:
 				<div class='post-link'><a target='blank_' href="{{href}}"></a></div>
 			</div>
 		{{/entries}}
+	<div class="ruler"></div>
 	{{/enabled}}{{/%}}
 	</div>
 </div>

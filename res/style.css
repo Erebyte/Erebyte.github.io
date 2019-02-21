@@ -17,6 +17,11 @@
 	--color-header-highlight: white;
 	--color-header-ruler: #3864a044;
 
+	--color-posts-bg: #22222266;
+	--color-posts-ruler: #22222288;
+	--color-post-bg-primary: #40404044;
+	--color-post-bg-secondary: #33333300;
+
 	--color-gradient-bg: var(--color-bg-primary); /* For browsers that do not support gradients */
 	--color-gradient-bg: -webkit-linear-gradient( var(--color-bg-primary)), var(--color-bg-secondary)) ); /* For Safari 5.1 to 6.0 */
 	--color-gradient-bg: -o-linear-gradient( var(--color-bg-primary), var(--color-bg-secondary) ); /* For Opera 11.1 to 12.0 */
@@ -34,6 +39,12 @@
 	--color-gradient-header: -o-linear-gradient( var(--color-header-primary), var(--color-header-secondary) ); /* For Opera 11.1 to 12.0 */
 	--color-gradient-header: -moz-linear-gradient( var(--color-header-primary), var(--color-header-secondary) ); /* For Firefox 3.6 to 15 */
 	--color-gradient-header: linear-gradient(var(--color-header-primary), var(--color-header-secondary)); /* Standard syntax */
+
+	--color-gradient-post-bg: var(--color-post-bg-primary); /* For browsers that do not support gradients */
+	--color-gradient-post-bg: -webkit-linear-gradient( var(--color-post-bg-primary)), var(--color-post-bg-secondary)) ); /* For Safari 5.1 to 6.0 */
+	--color-gradient-post-bg: -o-linear-gradient( var(--color-post-bg-primary), var(--color-post-bg-secondary) ); /* For Opera 11.1 to 12.0 */
+	--color-gradient-post-bg: -moz-linear-gradient( var(--color-post-bg-primary), var(--color-post-bg-secondary) ); /* For Firefox 3.6 to 15 */
+	--color-gradient-post-bg: linear-gradient(var(--color-post-bg-primary), var(--color-post-bg-secondary)); /* Standard syntax */
 
 }
 
@@ -123,30 +134,42 @@ div#logo img {
 	height: auto !important;
 }
 
-div#products {
-	width: 50%;
-	margin: 0 auto;
+div#projects {
 }
 
 div#about {
-	width: 70%;
-	margin: 0 auto;
+	
 }
 div#about .post{
 	text-align: left;
 }
 
 .posts {
-
+	background-color: var(--color-posts-bg);
+	/*padding: 5px;*/
+	max-width: 600px;
+	min-width: 320px; /* TODO: min(320, screenWidth)*/
+	width: 65%;
+	margin: 0 auto;
 }
 .posts hr {
-	border-color: #602060;
+	/*border-color: #602060;*/
+	margin: 5px;
 }
-.post{
+.posts .ruler{
+	background: var(--color-posts-ruler);
+	/*height: 10px;*/
+}
 
+
+.post{
+	background: var(--color-gradient-post-bg, var(--color-post-bg-primary));
+	margin: 5px;
+	padding: 5px;
 }
 .post-head {
 	font-size: 30px;
+	margin: 5px;
 }
 .post-title {
 	font-size: 20px;

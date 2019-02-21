@@ -1,7 +1,7 @@
 function setup () {
 	// body...
 	var myCanvas = createCanvas(800, 600);
-	myCanvas.parent('game_container');
+	myCanvas.parent('game-container');
 }
 
 function draw () {

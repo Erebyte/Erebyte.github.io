@@ -1,7 +1,7 @@
 <!DOCTYPE>
 <html>
 <head>
-	<title>Erebyte - Products</title>
+	<title>Erebyte - Projects</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -19,13 +19,13 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$.getJSON("products.json", function(json_data){
-				// load template into #products
-				$("#products").load("/res/templates.html #products > *", function(){
+			$.getJSON("projects.json", function(json_data){
+				// load template into #projects
+				$("#projects").load("/res/templates.html #projects > *", function(){
 					// callback: fetch template code and pass to Hogan
-					var template = Hogan.compile($("#products").html());
+					var template = Hogan.compile($("#projects").html());
 					var html = template.render(json_data);
-					$("#products").html(html);
+					$("#projects").html(html);
 				});
 			});
 		});
@@ -37,11 +37,10 @@
 
 <div id='navi'></div>
 
-<div id='products'></div>
+<div id='projects'></div>
 
 <div class="spacer"></div>
 
-<hr>
 <footer>
 	<img src="//erebyte.github.io/res/erebyte_logo_small.png">
 	<p>Copyright © 2016, Erebyte Ent., All Rights Reserved</p>

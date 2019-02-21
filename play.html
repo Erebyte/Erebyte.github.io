@@ -75,7 +75,7 @@
 					// if game is in seperate window (not embeded)
 					var img_src = json_data.conf.img_src || "http://placehold.it/720x250"
 					var htm = '<a href="'+base_url+'"><img src="'+img_src+'" alt="'+json_data.conf.img_alt+'"></a>';
-					$("#game_container").html(htm);
+					$("#game-container").html(htm);
 					$("#loader").css('display', 'none'); // clear loader
 				}
 			};
