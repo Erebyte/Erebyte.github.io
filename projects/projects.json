@@ -16,8 +16,8 @@
 			"enabled" : true,
 			"entries" : [
 				{
-					"title" : "Working Title: Blocks",
-					"desc" : "Blocks!",
+					"title" : "Working Title: Blocks!",
+					"desc" : "An RPG demo writen in p5.js using a blocky abstract 2d rendering system. Blocks! is in alpha and between release builds so much of the game is incomplete. <br><br>A game With Blocks!",
 					"id" : "blocks",
 					"href" : "/play?g=blocks"
 				},
