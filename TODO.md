@@ -1,5 +1,10 @@
 # TODO!
 
+- [ ] seperate live site from development
+	- [ ] complete all starred items
+	- [ ] remove maintenance
+	- [ ] 
+
 - [ ] make swirl into standalone
 	- [x] make into scalable graphic
 	- [ ] alternative behaviour
@@ -8,6 +13,8 @@
 - [ ] finish home page
 - [ ] finish about page
 - [ ] finish products page
+- [ ] finish play page
+	- [ ] fix scroll lock
 - [ ] fix color theme
 	- [ ] blue => purple and green
 - [ ] fix header, footer and nav to be like footer
@@ -15,6 +22,12 @@
 	- [x] header block
 	- [ ] nav as dropdown block thing
 	- [x] content block
+- [ ] site Content:
+	- [ ] main page
+	- [ ] projects
+	- [ ] about
+	- [ ] background content that matches each page
+	- [ ] contact (in about section)
 - [x] fix game loader
 - [ ] 
 
