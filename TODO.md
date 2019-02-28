@@ -50,3 +50,11 @@
 - [ ] 
 
 
+# Survival game idea
+
+you are stranded on an island with x# people and you must survive. Each person will act as they choose to based on their own goals for survival, can you all work as a team - or will you go out on our own. 
+
+- Has native island inhabitants (rivals and factions) which can kill you and track you back to your camp and steal your resources.
+- Hunting, firemaking, building, traping, etc.  examples of skills that can be harnesed to survive. each person must specialize.
+- Resources out in the wild which can all interact
+- etc.
