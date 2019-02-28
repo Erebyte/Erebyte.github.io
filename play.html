@@ -30,14 +30,16 @@
 			return this.charAt(0).toUpperCase() + this.slice(1);
 		}
 		String.prototype.titleize = function() {
-			var string_array = this.replaceAll('_',' ').split(' ');
+			var string_array = this.clean().split(' '); //changed
 			string_array = string_array.map(function(str) {
 				return str.capitalize(); 
 			});
 			return string_array.join(' ');
 		}
 		//
-
+		String.prototype.clean = function() {
+			return this.replaceAll('_',' ');
+		}
 		String.prototype.replaceAll = function(s, r) {
 			// a simple replace all function (sorry im used to python)
 			return this.split(s).join(r);
