@@ -2074,6 +2074,7 @@ Terrain.prototype.draw = function () {
 	// }
 };
 Terrain.prototype.drawDebug = function () {
+	// Draw Chunk Map
 	push();
 	//
 	var offset = createVector(width*0.15, height*0.3)
@@ -2094,6 +2095,22 @@ Terrain.prototype.drawDebug = function () {
 	stroke(255,0,0);
 	rect(offset.x, offset.y, width*0.05, height*0.05);
 	pop();
+	//
+	// Draw Chunk Nodes
+	push();
+	camera.apply_transition();
+	noFill();
+	stroke(0,255,0);
+	var nodes, pos, size;
+	for (var i = this.chunks.length - 1; i >= 0; i--) {
+		nodes = this.chunks[i].nodes;
+		for (var ni = nodes.length - 1; ni >= 0; ni--) {
+			pos = nodes[ni].pos;
+			size = nodes[ni].size;
+			ellipse(pos.x, pos.y, size, size);
+		}
+	}
+	pop();
 };
 Terrain.prototype.toggleDebug = function () {
 	this._debug = !this._debug;
@@ -2105,9 +2122,51 @@ Terrain.prototype.collide = function (x,y) {
 };
 	
 Terrain.prototype._generateChunk = function(chunk_pos){
+	//
+	var chunkSize = this.chunkSize;
+	var Node = function(pos, size){
+		this.pos = pos;
+		this.size = size;
+		//
+		this.chunk_pos = chunk_pos;
+		this.chunkSize = chunkSize;
+		//
+	};
+	//
+	var collideNodeNodes = function (node, nodes) {
+		for (var i = nodes.length - 1; i >= 0; i--) {
+			if(collideCircleCircle(node.x,node.y,node.size, nodes[i].x,nodes[i].y,nodes[i].size)){
+				return nodes[i];
+			}
+		}
+		return false;
+	}
+	var generateNodes = function (chunk_pos) {
+		var nodes = [];
+		var ammount = random(10,20);
+		var cpos, pos, size, node;
+		//
+		while(nodes.length-1 < ammount){
+			cpos = createVector(chunk_pos.x*chunkSize.x, chunk_pos.y*chunkSize.y);
+			pos = p5.Vector.add(cpos, createVector(random(chunkSize.x), random(chunkSize.y)));
+			size = random(100,300);
+			node = new Node(pos, size);
+			console.log(node, collideNodeNodes(node, nodes));
+			if(!collideNodeNodes(node, nodes)) nodes.push(node);
+		}
+		//
+		return nodes;
+	};
+	var generateSubNodes = function (nodes) {
+		//
+		return nodes
+	};
+	//
 	var chunk = {
 		chunk_pos:chunk_pos,
-		pos:createVector(chunk_pos.x*this.chunkSize.x, chunk_pos.y*this.chunkSize.y)
+		pos:createVector(chunk_pos.x*chunkSize.x, chunk_pos.y*chunkSize.y),
+		//
+		nodes:generateSubNodes(generateNodes(chunk_pos))
 	};
 	return chunk;
 };
