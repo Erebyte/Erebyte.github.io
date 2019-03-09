@@ -25,6 +25,9 @@
 - [ ] site Content: *
 	- [ ] main page *
 	- [ ] projects 
+		- [ ] show desktop links on desktop 
+		- [ ] show mobile links on mobile 
+		- [ ] hide mobile/desktop links on the other 
 	- [ ] about *
 	- [ ] background content that matches each page
 	- [ ] contact (in about section)
