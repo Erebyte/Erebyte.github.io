@@ -6,26 +6,26 @@
 	- [ ] 
 
 - [ ] make swirl into standalone
-	- [x] make into scalable graphic
+	- [x] make into scalable graphic *
 	- [ ] alternative behaviour
 	- [ ] mouse interactivity
 	- [ ] cleaner
-- [ ] finish home page
-- [ ] finish about page
-- [ ] finish products page
-- [ ] finish play page
+- [ ] finish home page *
+- [ ] finish about page *
+- [ ] finish products page *
+- [ ] finish play page *
 	- [ ] fix scroll lock
-- [ ] fix color theme
-	- [ ] blue => purple and green
+- [x] fix color theme *
+	- [x] blue => purple and green
 - [ ] fix header, footer and nav to be like footer
 	- [x] footer block
 	- [x] header block
 	- [ ] nav as dropdown block thing
 	- [x] content block
-- [ ] site Content:
-	- [ ] main page
-	- [ ] projects
-	- [ ] about
+- [ ] site Content: *
+	- [ ] main page *
+	- [ ] projects 
+	- [ ] about *
 	- [ ] background content that matches each page
 	- [ ] contact (in about section)
 - [x] fix game loader
