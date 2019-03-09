@@ -2135,6 +2135,7 @@ Terrain.prototype._generateChunk = function(chunk_pos){
 	//
 	var collideNodeNodes = function (node, nodes) {
 		for (var i = nodes.length - 1; i >= 0; i--) {
+			// collideCircleCircle not working
 			if(collideCircleCircle(node.x,node.y,node.size, nodes[i].x,nodes[i].y,nodes[i].size)){
 				return nodes[i];
 			}
