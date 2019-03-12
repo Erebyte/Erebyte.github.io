@@ -1502,7 +1502,8 @@ var Player = function () {
 			'gravity':true,
 			'friction':true,
 			//
-			'check_dist':30
+			'check_dist':30,
+			"walk_target":0
 		}
 	});
 
@@ -1515,7 +1516,7 @@ var Player = function () {
 	//
 	this.attribs = {
 		"health" : 20,
-		"speed" : 2.5
+		"speed" : 2.5,
 	};
 	//
 	ambience.newLight({agent:this,d:1.25});
@@ -1524,46 +1525,13 @@ Player.prototype = Object.create(GameEntity.prototype);
 // -=- Player Functions -=- //
 Player.prototype.update = function () {
 	//this.grapple.update();
+	var target = this.flags["walk_target"];
+	var pos = terrain.path.nodes[target].pos;
+	if(dist(pos.x, pos.y, this.pos.x, this.pos.y) < 20) this.flags["walk_target"]++;
 	//
-	var mx = 0;
-	var my = 0;
-	if (keyIsDown(87)) {//w
-		my -= 1;
-	}
-	if (keyIsDown(83)){//s
-		my += 1;
-	}
-	if (keyIsDown(65)){//a
-		mx -= 1;
-	}
-	if (keyIsDown(68)){//d
-		mx += 1;
-	}
-	// this.move(mx, my);
-	if (mx!==0 || my!==0){
-		if (!this.collide(this.get_move(mx,my))) {
-			// this.unmove();
-			this.move(mx,my);
-		}
-	}
-	this.flags.check = false;
-	this.flags.checking = null;
-	var check_distSq = pow(this.flags.check_dist, 2);
-	var active = entities.getActive();
-	var ent;
-	for(var i=active.length-1;i>=0;i--){
-		ent = active[i];
-		if(ent!=this&&ent.check&&p5.Vector.sub(ent.pos,this.pos).magSq()<=check_distSq){
-			if(!this.flags.check){
-				this.flags.check = true;
-				this.flags.checking = ent;
-			}else if(this.flags.checking != ent){
-				var old_dist = p5.Vector.sub(this.flags.checking.pos,this.pos).magSq();
-				var cur_dist = p5.Vector.sub(ent.pos,this.pos).magSq();
-				if(cur_dist < old_dist) this.flags.checking = ent;
-			}
-		}
-	}
+	var dir = p5.Vector.sub(pos, this.pos)
+	dir.setMag(1);
+	this.pos.add(dir);
 };
 Player.prototype.draw = function () {
 	push();
@@ -1985,6 +1953,8 @@ var Terrain = function () {
 	this.chunkSize = createVector(width*1.5, height*1.5);
 	this.centerChunk = createVector(Infinity, Infinity);
 	this.chunks = [];
+	this.nodes = [];
+	this.path = new this._path(this, createVector());
 
 	// remove
 	//this.chunks.push(this._generateChunk(createVector(0,0)))
@@ -2023,7 +1993,7 @@ Terrain.prototype.update = function () {
 		rem = true;
 		pos = this.chunks[ci].chunk_pos;
 		for (var i = cs.length - 1; i >= 0; i--) {
-			console.log(pos, cs[i], pos.equals(cs[i]))
+			//console.log(pos, cs[i], pos.equals(cs[i]))
 			if(pos.equals(cs[i])){
 				rem = false
 				no_gen.push(i);
@@ -2036,6 +2006,7 @@ Terrain.prototype.update = function () {
 	}
 	// iter to_rem and remove it form chunks
 	for (var i = 0; i < to_rem.length; i++) {
+		//this.chunks[to_rem[i]].remove();
 		this.chunks.splice(to_rem[i], 1);
 	}
 	// iter to_gen and generate it
@@ -2110,6 +2081,16 @@ Terrain.prototype.drawDebug = function () {
 			ellipse(pos.x, pos.y, size, size);
 		}
 	}
+	//draw path nodes
+	stroke(255,0,0);
+	for (var i = this.path.nodes.length - 1; i >= 0; i--) {
+		this.path.nodes[i];
+		pos = this.path.nodes[i].pos;
+		lpos = this.path.nodes[i].last;
+		size = this.path.nodes[i].size;
+		ellipse(pos.x, pos.y, size, size);
+		line(pos.x, pos.y, lpos.x, lpos.y);
+	}
 	pop();
 };
 Terrain.prototype.toggleDebug = function () {
@@ -2123,6 +2104,7 @@ Terrain.prototype.collide = function (x,y) {
 	
 Terrain.prototype._generateChunk = function(chunk_pos){
 	//
+	var self = this;
 	var chunkSize = this.chunkSize;
 	var Node = function(pos, size){
 		this.pos = pos;
@@ -2133,10 +2115,14 @@ Terrain.prototype._generateChunk = function(chunk_pos){
 		//
 	};
 	//
+	this.path.doChunk(chunk_pos);
+	//
 	var collideNodeNodes = function (node, nodes) {
+		collide = function (v1, s1, v2, s2) {
+			return collideCircleCircle(v1.x, v1.y, s1, v2.x, v2.y, s2);
+		};
 		for (var i = nodes.length - 1; i >= 0; i--) {
-			// collideCircleCircle not working
-			if(collideCircleCircle(node.x,node.y,node.size, nodes[i].x,nodes[i].y,nodes[i].size)){
+			if(collide(node.pos,node.size, nodes[i].pos,nodes[i].size)){
 				return nodes[i];
 			}
 		}
@@ -2144,18 +2130,21 @@ Terrain.prototype._generateChunk = function(chunk_pos){
 	}
 	var generateNodes = function (chunk_pos) {
 		var nodes = [];
-		var ammount = random(10,20);
+		var ammount = random(30,50);
 		var cpos, pos, size, node;
 		//
 		while(nodes.length-1 < ammount){
 			cpos = createVector(chunk_pos.x*chunkSize.x, chunk_pos.y*chunkSize.y);
 			pos = p5.Vector.add(cpos, createVector(random(chunkSize.x), random(chunkSize.y)));
-			size = random(100,300);
+			size = random(50,200);
 			node = new Node(pos, size);
-			console.log(node, collideNodeNodes(node, nodes));
-			if(!collideNodeNodes(node, nodes)) nodes.push(node);
+			var result = collideNodeNodes(node, nodes) || collideNodeNodes(node, self.path.nodes) || collideNodeNodes(node, self.nodes);
+			if(!result) nodes.push(node);
 		}
 		//
+		for (var i = nodes.length - 1; i >= 0; i--) {
+			self.nodes.push(nodes[i]);
+		}
 		return nodes;
 	};
 	var generateSubNodes = function (nodes) {
@@ -2163,13 +2152,95 @@ Terrain.prototype._generateChunk = function(chunk_pos){
 		return nodes
 	};
 	//
+	var generateEntities = function (nodes) {
+		var ents = [];
+		var node, e;
+		for (var i = nodes.length - 1; i >= 0; i--) {
+			node = nodes[i];
+			e = new Tree({
+				pos:node.pos
+				//size:1
+			});
+			ents.push(e._entity_id);
+		}
+		for (var i = ents.length - 1; i >= 0; i--) {
+			entities._entities.push(ents[i])
+		}
+		entities.refresh();
+		return ents;
+	}
+	var removeChunk = function () {
+		
+	}
+	//
 	var chunk = {
 		chunk_pos:chunk_pos,
 		pos:createVector(chunk_pos.x*chunkSize.x, chunk_pos.y*chunkSize.y),
 		//
-		nodes:generateSubNodes(generateNodes(chunk_pos))
+		nodes:generateSubNodes(generateNodes(chunk_pos)),
+		remove:function(){
+			var index;
+			for (var i = this.entities.length - 1; i >= 0; i--) {
+				index = entities._entities.indexOf(this.entities[i])
+				//entities._entities.splice(i, 1);
+				//entities._entity_data[i] = null;
+			}
+		}
 	};
+	chunk.entities = generateEntities(chunk.nodes);
 	return chunk;
+};
+//
+Terrain.prototype.getChunk = function(vec){
+	var x = floor(vec.x/this.chunkSize.x);
+	var y = floor(vec.y/this.chunkSize.y);
+	return createVector(x, y);
+}
+// -=- Path -=- //
+Terrain.prototype._path = function (parent, seed) {
+	this.parent = parent;
+	this.seed = seed || createVector();
+	this.nodes = [{
+		pos:this.seed,
+		size:random(100,200),
+		last:p5.Vector.add(this.seed, p5.Vector.random2D())
+	}];
+	this.caps = [this.nodes[0]];
+
+	this.generateNode = function (cap) {
+
+	};
+	this.checkChunk = function (chunk_pos){
+		for (var i = this.caps.length - 1; i >= 0; i--) {
+			if(chunk_pos.equals(this.parent.getChunk(this.caps[i].pos))) return true;
+		}
+		return false;
+	};
+	this.doChunk = function (chunk_pos){
+		var cap, pos, npos, node, last, dir, size;
+		for (var ci = 5; ci >= 0; ci--) {
+			for (var i = this.caps.length - 1; i >= 0; i--) {
+				cap = this.caps[i];
+				pos = cap.pos;
+				last = cap.last;
+				dir = p5.Vector.sub(pos, last);
+				size = random(100,200);
+				npos = dir.copy()
+				npos.rotate(random(-0.5,0.5))
+				npos.setMag(cap.size/2+size/2)
+				npos.add(pos);
+				node = {
+					pos:npos,
+					size:size,
+					last:pos
+				}
+				this.nodes.push(node);
+				this.caps.push(node);
+				this.caps.splice(i, 1);
+			}
+		}
+	};
+	this.doChunk();
 };
 
 
