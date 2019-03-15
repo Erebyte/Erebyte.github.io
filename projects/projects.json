@@ -1,7 +1,7 @@
 {
 	"%" : [
 		{
-			"category" : "Products",
+			"category" : "Projects",
 			"enabled" : false,
 			"entries" : [
 				{
@@ -22,10 +22,10 @@
 					"href" : "/play?g=blocks"
 				},
 				{
-					"title" : "Working Title: Talk",
-					"desc" : "Talking!",
-					"id" : "talk",
-					"href" : "/play?g=talk"
+					"title" : "Test!",
+					"desc" : "A sample \"game\" that is used to test various things during the development process.",
+					"id" : "test",
+					"href" : "/play?g=test"
 				}
 			]
 		},
