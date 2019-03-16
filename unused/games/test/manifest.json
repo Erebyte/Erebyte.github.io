@@ -1,7 +1,7 @@
 {
 	"conf" : {
 		"title" : "Test!",
-		"desc" : "This is a sample game, it is used to test various things during the development process.",
+		"desc" : "This is a sample game, it is used to test various things during the development process.<br><br>Does not work on mobile. Sorry for the inconvenience.",
 		"img_src" : "https://erebyte.github.io/res/Erebyte_Logo_head.png",
 		"img_alt" : "Test!",
 		"embeded" : true,
